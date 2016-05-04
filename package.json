@@ -1,0 +1,28 @@
+{
+  "name": "encodeuri-safe",
+  "version": "0.0.1",
+  "description": "idempotent and predictable encodeURIComponent",
+  "main": "index.js",
+  "scripts": {
+    "test": "tape test/**.js"
+  },
+  "keywords": [
+    "encodeURIComponent",
+    "decodeURIComponent",
+    "encodeURI",
+    "decodeURI",
+    "idempotent",
+    "querystring",
+    "queryparam",
+    "params",
+    "encode",
+    "url",
+    "parameters",
+    "converter"
+  ],
+  "author": "taveras <me@danieltaveras.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "tape": "4.5.1"
+  }
+}
