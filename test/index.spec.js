@@ -4,6 +4,21 @@ var test = require('tape');
 var encodeSafe = require('../')
 
 var input = 'here is some test input';
+var MAX_ROTATIONS = 200;
+
+var _rotate = (function() {
+  var map = {};
+  return function _rotateMemoized(str, n) {
+    if(map[n]) {
+      return map[n];
+    }
+    for(var i = 0; i < n; i++) {
+      str = encodeURIComponent(str);
+    }
+    map[i] = str;
+    return str;
+  };
+})();
 
 test('encodeURISafe', function(assert) {
   assert.ok(encodeSafe, 'Module was loaded');
@@ -16,16 +31,22 @@ test('encodeURISafe', function(assert) {
 
 test('encodeURISafe.encodeURIComponent', function(assert) {
   var expected = encodeURIComponent(input);
-  var actual = encodeSafe.encodeURIComponent(input);
+  for (var i = 0; i < MAX_ROTATIONS; i++) {
+    var newInput = _rotate(input, i);
+    var actual = encodeSafe.encodeURIComponent(newInput);
+    assert.equal(actual, expected, 'Properly encodes a value that was previously encoded ' + i + ' times');
+  }
 
-  assert.equal(actual, expected, 'Properly encodes a value');
   assert.end();
 });
 
 test('encodeURISafe.decodeURIComponent', function(assert) {
-  var expected = input;
   var actual = encodeSafe.decodeURIComponent(input);
+  for (var i = 0; i < MAX_ROTATIONS; i++) {
+    var newInput = _rotate(input, i);
+    var actual = encodeSafe.decodeURIComponent(newInput);
+    assert.equal(actual, input, 'Properly decodes a value that was previously encoded ' + i + ' times');
+  }
 
-  assert.equal(actual, expected, 'Properly decodes a value');
   assert.end();
 });
